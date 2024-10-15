@@ -1,3 +1,5 @@
+// EP-01 | How JavaScript Works & Execution Context
+
 // How JS works?
 // What is the Execution context?
 // is JS synchronous or asynchronous?
@@ -7,7 +9,7 @@
 // Everything in JS happens inside an Execution context?
 // It is like a container in which the whole JS code executed.
 
-// So, Execution context is like a big box which contains two separate
+// So, Execution context / Global execution context is like a big box which contains two separate
 // components in it:
 
 // 1. Memory component or Variable environment
