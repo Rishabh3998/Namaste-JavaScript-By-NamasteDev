@@ -125,3 +125,13 @@ var square4 = square(4);
 // context at the bottom and whenever a new context is created at function call, that new context gets pushed
 // inside this call stack and pops out after we get the result. When whole program gets executed the global
 // context also pops out from the stack and stack gets empty which means that program is executed completely.
+
+// Note: Call stack maintains the order of execution of execution contexts.
+// This call stack is also known by some other names like:
+
+// 1. Call stack
+// 2. Execution context stack
+// 3. Program stack
+// 4. Control stack
+// 5. Runtime stack
+// 6. Machine stack
