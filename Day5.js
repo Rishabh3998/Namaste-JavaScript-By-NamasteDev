@@ -1,3 +1,5 @@
+// EP-05 | SHORTEST JS Program, window & this keyword
+
 // Shortest JS program
 
 // This empty file is the shortest JS program, it looks like nothing is going on but BTS JS engine is working
