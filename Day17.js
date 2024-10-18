@@ -52,3 +52,33 @@ console.log("while expires");
 
 // So, the correct definition for the delay is like that the setTimeout will at-least wait for the entered
 // delay, it can take more time but will at-least wait for the desired time.
+
+console.log("start");
+setTimeout(function cb() {
+  console.log("callback");
+}, 0);
+console.log("end");
+
+// Output:
+// start
+// end
+// callback
+
+// The callback will still moves to the callback queue and wait for the call stack to get empty, due to
+// which 'callback' will print in last line.
+
+console.log("start");
+function cb() {
+  console.log("callback");
+}
+cb();
+setTimeout(function cb() {
+  console.log("callback");
+}, 0);
+console.log("end");
+
+// Output:
+// start
+// callback
+// end
+// callback
