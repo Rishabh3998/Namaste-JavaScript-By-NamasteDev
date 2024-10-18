@@ -87,3 +87,62 @@ console.log("end");
 // It helps to maintain the order of all the callbacks hit by timer, eventListeners etc.
 // We can't just blindly push all the callbacks inside call stack because there can be same callbacks
 // which was called repeatedly, we need to execute them one by one.
+
+// Example 3:
+console.log("start");
+
+setTimeout(function cbt() {
+  console.log("callback setTimeout");
+}, 5000);
+
+fetch("https://dummyjson.com/products?limit=10").then(function cbp() {
+  console.log("callback fetch");
+});
+
+console.log("end");
+
+// Output:
+// start
+// end
+// callback fetch
+// callback setTimeout
+
+// What normal developers generally assume?
+// So the assumption is like, first start will print then at next line JS engine will register the cbt in
+// the memory then at line 98 fetch will make the network and then the promise will be returned, the cbp
+// will be registers inside the memory and suppose if this promise takes 50ms to get resolve so it will
+// move to the callback queue and executes, before this end will get print due to this 50ms delay.
+
+// But the above assumption is wrong :)
+
+// Here microtask queue comes into the picture, this queue is exactly similar to the callback queue but
+// it has the higher priority whatever functions comes inside this queue will be executed first and the
+// functions inside the callback queues will execute later.
+
+// The cbf callback that we got from the fetch function will move inside the microtask queue, and again
+// the job of the event loop is to keep checking if the call stack is empty or not, if the stack is
+// empty it will give the chance to the callback present inside the microtask and callback queue acc to
+// the priority.
+
+// Suppose after fetch line there are millions of lines of code and JS is executing them, so what will
+// happen if we get the response from the fetch call and also if the timer will be expired, now the
+// callback queue has the cbt and microtask queue has the cbf and millions of line are still executing
+// and both of the callbacks are still waiting to move to the call stack.
+
+// When this call stack gets empty the event loop will move the callback from the microtask queue to the
+// call stack and same will happen with the other callbacks according to the priority of them.
+
+// What are microtasks and what can comes inside the microtask queue?
+// All the callback functions which comes through promises are microtasks and will go to microtask queue.
+// There is something called mutation observer and it keeps on checking whether there is some mutation in
+// DOM tree or not. If there is some mutation in DOM tree it can execute some callback function.
+
+// So Promises and mutation observers goes inside the microtask queue. And the rest like setTimeout, DOM
+// API's like event listeners goes inside the callback queue. Callback queue is also known as the task queue.
+
+// Suppose we have 3 tasks inside the microtask queue and 1 inside the callback queue, in this case the
+// callback queue task will only get the chance to move into the call stack when all the 3 task inside the
+// microtask queue gets executed.
+
+// Suppose the task inside the microtask queue is create more task inside the same queue then the callback
+// queue task will never get the chance to execute and this infinite like waiting time is called starvation.
